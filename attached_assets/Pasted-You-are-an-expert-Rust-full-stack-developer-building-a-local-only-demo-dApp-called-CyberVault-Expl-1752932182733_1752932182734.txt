@@ -1,0 +1,109 @@
+You are an expert Rust full-stack developer building a local-only demo dApp called **CyberVault Explorer**. This dApp showcases a decentralized identity and notarization framework SDK (CyberVault) built in Rust and targeting IOTA Move smart contracts.
+
+Use the following constraints and requirements to scaffold the dApp:
+
+---
+
+🧱 **Architecture Constraints**:
+- All code must be in **Rust only** (no Node.js, JS, or external frontend stacks).
+- Contracts are written in **IOTA Move**.
+- The CyberVault SDK is a CLI tool with the following commands:
+  - `cargo run --bin cybervault-cli -- register <did>`
+  - `cargo run --bin cybervault-cli -- bind <did> <wallet_address>`
+  - `cargo run --bin cybervault-cli -- notarize <data_hash> <timestamp>`
+- The dApp runs completely **locally**, including the CLI, smart contract interaction, and storage.
+- No internet dependency or centralized backend.
+
+---
+
+🔐 **Web3 Wallet Integration**:
+- Users connect a web3 wallet (e.g., Firefly or MetaMask-compatible IOTA wallet) to the local Rust-based UI.
+- After connecting, the user's address is passed into CLI commands as the wallet address when binding or verifying.
+- Use Rust-compatible libraries or bindings for web wallet integration, like [Tauri](https://tauri.app/), [Yew](https://yew.rs/), or [Leptos](https://leptos.dev/).
+
+---
+
+🧩 **Core Features to Implement**:
+
+### 1. ✅ DID Registration & Binding Interface
+- Form fields for:
+  - `DID` (free text input)
+  - Auto-fetch connected wallet address
+- On submit:
+  - Run both CLI commands:
+    - `register <did>`
+    - `bind <did> <wallet>`
+
+### 2. 📝 Notarization Module
+- Form fields for:
+  - File uploader (or manual hash input)
+  - Use case dropdown (e.g., "University Credential", "Supply Chain Event", etc.)
+  - Auto-generate current timestamp
+- On submit:
+  - Compute hash of file (e.g., SHA-256)
+  - Run: `notarize <hash> <timestamp>`
+
+### 3. 📊 Dashboard Display
+- List of:
+  - Registered DIDs and bound wallets
+  - All notarized hashes with timestamps and tags
+- Option to:
+  - Filter by use case category
+  - Search by DID or hash
+  - Verify notarization on-chain by looking up the Move smart contract state
+
+### 4. 🔎 Document Verifier
+- Input field to enter document hash
+- Output:
+  - "✅ Verified" with DID + timestamp if notarized on-chain
+  - "❌ Not found" if not notarized
+
+---
+
+📦 **Smart Contract Functions (in IOTA Move)**:
+Implement contracts with the following entry points:
+
+```move
+public entry fun register_did(did: String, owner: address) { ... }
+
+public entry fun bind_did(did: String, wallet: address) { ... }
+
+public entry fun notarize(data_hash: vector<u8>, timestamp: u64) { ... }
+
+public view fun verify_notarization(data_hash: vector<u8>): (bool, String, u64) { ... }
+🎨 UI Framework (Rust only):
+
+Use Leptos, Yew, or Tauri for the frontend
+
+UI should include:
+
+Connect Wallet button
+
+Forms for register/bind/notarize
+
+Dashboard view
+
+Verifier component
+
+🛠 Technical Details:
+
+Each CLI call must be run as a subprocess from the UI (e.g., using std::process::Command)
+
+Store local state (DID registry, notarizations, etc.) in memory or optionally using SQLite/JSON file for persistence
+
+Optionally, simulate token/NFT minting on the IOTA chain linked to a DID
+
+📁 Final Outcome:
+A fully functional local demo app (Rust-only) that:
+
+Accepts wallet connections
+
+Registers and binds DIDs
+
+Notarizes hashes on-chain
+
+Shows a dashboard of all identity + data interactions
+
+Proves verifiable credentials and events with no external dependencies
+
+Generate the full Rust codebase for this app, modularized by CLI logic, IOTA Move bindings, UI components, and smart contracts.
