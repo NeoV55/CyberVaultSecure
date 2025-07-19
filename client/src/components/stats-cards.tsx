@@ -29,53 +29,63 @@ export default function StatsCards() {
       title: "Registered DIDs",
       value: stats?.registeredDids || 0,
       icon: "fas fa-id-badge",
-      iconBg: "bg-indigo-500/20",
-      iconColor: "text-indigo-400",
+      gradient: "gradient-purple",
+      bgGradient: "from-purple-50 to-indigo-50",
+      textColor: "text-purple-700",
       change: "+2 this week",
+      delay: "0s"
     },
     {
-      title: "Notarized Documents",
+      title: "Notarized Documents", 
       value: stats?.notarizedDocuments || 0,
       icon: "fas fa-file-signature",
-      iconBg: "bg-purple-500/20",
-      iconColor: "text-purple-400",
+      gradient: "gradient-green",
+      bgGradient: "from-green-50 to-emerald-50",
+      textColor: "text-green-700",
       change: "+8 this week",
+      delay: "0.1s"
     },
     {
       title: "Verifications",
       value: stats?.verifications || 0,
       icon: "fas fa-check-circle",
-      iconBg: "bg-green-500/20",
-      iconColor: "text-green-400",
+      gradient: "gradient-blue",
+      bgGradient: "from-blue-50 to-sky-50",
+      textColor: "text-blue-700",
       change: "+15 this week",
+      delay: "0.2s"
     },
     {
       title: "Storage Used",
       value: `${stats?.storageUsed || 0}GB`,
       icon: "fas fa-database",
-      iconBg: "bg-orange-500/20",
-      iconColor: "text-orange-400",
+      gradient: "gradient-orange",
+      bgGradient: "from-orange-50 to-amber-50",
+      textColor: "text-orange-700",
       change: "+0.3GB this week",
+      delay: "0.3s"
     },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
       {statsData.map((stat, index) => (
-        <Card key={index} className="glass-card border-slate-700">
+        <Card key={index} className={`modern-card rounded-3xl bg-gradient-to-br ${stat.bgGradient} border-white/20 animate-slide-up`} style={{animationDelay: stat.delay}}>
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-400 text-sm">{stat.title}</p>
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
+            <div className="flex items-center justify-between mb-4">
+              <div className={`w-12 h-12 ${stat.gradient} rounded-2xl flex items-center justify-center floating-icon`}>
+                <i className={`${stat.icon} text-white text-xl`}></i>
               </div>
-              <div className={`w-12 h-12 ${stat.iconBg} rounded-lg flex items-center justify-center`}>
-                <i className={`${stat.icon} ${stat.iconColor} text-xl`}></i>
+              <div className="text-right">
+                <p className="text-3xl font-bold ${stat.textColor}">{stat.value}</p>
               </div>
             </div>
-            <div className="mt-4 flex items-center text-green-400 text-sm">
-              <i className="fas fa-arrow-up mr-1"></i>
-              <span>{stat.change}</span>
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-gray-700">{stat.title}</p>
+              <div className="flex items-center text-green-600 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
+                <span className="font-medium">{stat.change}</span>
+              </div>
             </div>
           </CardContent>
         </Card>

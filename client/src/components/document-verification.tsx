@@ -55,78 +55,86 @@ export default function DocumentVerification() {
   };
 
   return (
-    <Card className="glass-card border-slate-700">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-            <i className="fas fa-search text-green-400"></i>
+    <Card className="modern-card rounded-3xl bg-gradient-to-br from-blue-50 to-cyan-50 border-white/20">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center space-x-4">
+          <div className="w-14 h-14 gradient-blue rounded-2xl flex items-center justify-center floating-icon">
+            <i className="fas fa-search text-white text-xl"></i>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">Document Verification</h3>
-            <p className="text-slate-400 text-sm font-normal">Verify document authenticity on the blockchain</p>
+            <h3 className="text-xl font-bold text-blue-800">Document Verification</h3>
+            <p className="text-blue-600 text-sm font-medium">Verify document authenticity on the blockchain</p>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <Label className="text-slate-300">Document Hash (SHA-256)</Label>
+            <Label className="text-blue-700 font-medium text-sm">Document Hash (SHA-256)</Label>
             <div className="flex space-x-3 mt-2">
               <Input
                 type="text"
                 value={hash}
                 onChange={(e) => setHash(e.target.value)}
                 placeholder="Enter document hash to verify..."
-                className="flex-1 bg-slate-800 border-slate-600 text-white font-mono text-sm placeholder-slate-500 focus:border-green-500"
+                className="flex-1 rounded-2xl border-blue-200 bg-white/80 text-blue-800 font-mono text-sm placeholder-blue-400 focus:border-blue-500"
               />
-              <Button
+              <button
                 onClick={handleVerify}
                 disabled={verifyMutation.isPending}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                className="px-6 py-3 pill-button gradient-blue text-white font-medium shadow-lg hover:shadow-xl disabled:opacity-50"
               >
                 {verifyMutation.isPending ? (
-                  <>
-                    <i className="fas fa-spinner fa-spin mr-2"></i>
-                    Verifying...
-                  </>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Verifying...</span>
+                  </div>
                 ) : (
-                  <>
-                    <i className="fas fa-check mr-2"></i>
-                    Verify
-                  </>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 bg-white/20 rounded flex items-center justify-center">
+                      <i className="fas fa-check text-white text-xs"></i>
+                    </div>
+                    <span>Verify</span>
+                  </div>
                 )}
-              </Button>
+              </button>
             </div>
           </div>
 
           {verificationResult && (
             <div>
-              <Label className="text-slate-300">Verification Result</Label>
-              <div className={`p-4 rounded-lg border mt-2 ${
+              <Label className="text-blue-700 font-medium text-sm">Verification Result</Label>
+              <div className={`p-4 rounded-2xl border mt-2 ${
                 verificationResult.verified 
-                  ? 'border-green-500/30 bg-green-500/10' 
-                  : 'border-red-500/30 bg-red-500/10'
+                  ? 'border-green-300 bg-gradient-to-br from-green-50 to-emerald-50' 
+                  : 'border-red-300 bg-gradient-to-br from-red-50 to-pink-50'
               }`}>
                 {verificationResult.verified ? (
                   <div>
-                    <div className="flex items-center space-x-2 mb-2">
-                      <i className="fas fa-check-circle text-green-400"></i>
-                      <span className="font-semibold text-green-300">✅ Verified</span>
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-8 h-8 gradient-green rounded-xl flex items-center justify-center">
+                        <i className="fas fa-check-circle text-white"></i>
+                      </div>
+                      <span className="font-bold text-green-700 text-lg">✅ Verified</span>
                     </div>
-                    <p className="text-sm text-white mb-1">Category: {verificationResult.document.category}</p>
-                    <p className="text-sm text-slate-400">File: {verificationResult.document.fileName}</p>
-                    <p className="text-sm text-slate-400">Timestamp: {verificationResult.document.timestamp}</p>
-                    <p className="text-xs text-slate-500 mt-2">
-                      Notarized: {new Date(verificationResult.document.createdAt).toLocaleString()}
-                    </p>
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium text-green-800">Category: {verificationResult.document.category}</p>
+                      <p className="text-sm text-green-700">File: {verificationResult.document.fileName}</p>
+                      <p className="text-sm text-green-700">Timestamp: {verificationResult.document.timestamp}</p>
+                      <p className="text-xs text-green-600 bg-green-100 p-2 rounded-lg mt-3">
+                        Notarized: {new Date(verificationResult.document.createdAt).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
                 ) : (
                   <div>
-                    <div className="flex items-center space-x-2">
-                      <i className="fas fa-times-circle text-red-400"></i>
-                      <span className="font-semibold text-red-300">❌ Not Found</span>
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className="w-8 h-8 gradient-pink rounded-xl flex items-center justify-center">
+                        <i className="fas fa-times-circle text-white"></i>
+                      </div>
+                      <span className="font-bold text-red-700 text-lg">❌ Not Found</span>
                     </div>
-                    <p className="text-sm text-slate-400 mt-1">{verificationResult.message}</p>
+                    <p className="text-sm text-red-600 bg-red-100 p-2 rounded-lg">{verificationResult.message}</p>
                   </div>
                 )}
               </div>

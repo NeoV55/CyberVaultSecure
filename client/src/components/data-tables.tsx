@@ -38,19 +38,19 @@ export default function DataTables() {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
       {/* Registered DIDs Table */}
-      <Card className="glass-card border-slate-700">
-        <CardHeader className="border-b border-slate-700">
+      <Card className="modern-card rounded-3xl bg-gradient-to-br from-purple-50 to-indigo-50 border-white/20">
+        <CardHeader className="border-b border-purple-100 pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                <i className="fas fa-id-badge text-indigo-400"></i>
+              <div className="w-10 h-10 gradient-purple rounded-2xl flex items-center justify-center floating-icon">
+                <i className="fas fa-id-badge text-white"></i>
               </div>
-              <span className="text-white">Registered DIDs</span>
+              <span className="text-purple-800 font-bold text-lg">Registered DIDs</span>
             </CardTitle>
-            <Button variant="outline" size="sm" className="bg-slate-800 border-slate-600 hover:bg-slate-700">
+            <button className="px-4 py-2 pill-button gradient-purple text-white text-sm font-medium shadow-md hover:shadow-lg">
               <i className="fas fa-filter mr-2"></i>
               Filter
-            </Button>
+            </button>
           </div>
         </CardHeader>
         <CardContent className="p-6">
@@ -64,25 +64,27 @@ export default function DataTables() {
             </div>
           ) : dids.length === 0 ? (
             <div className="text-center py-8">
-              <i className="fas fa-id-badge text-4xl text-slate-600 mb-4"></i>
-              <p className="text-slate-400">No DIDs registered yet</p>
-              <p className="text-slate-500 text-sm">Register your first DID to get started</p>
+              <div className="w-16 h-16 gradient-purple rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <i className="fas fa-id-badge text-white text-2xl"></i>
+              </div>
+              <p className="text-purple-700 font-medium">No DIDs registered yet</p>
+              <p className="text-purple-500 text-sm">Register your first DID to get started</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {dids.slice(0, 5).map((did: any) => (
-                <div key={did.id} className="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                <div key={did.id} className="flex items-center justify-between p-4 bg-white/60 rounded-2xl border border-purple-100 hover:bg-white/80 transition-all">
                   <div>
-                    <p className="font-mono text-sm text-white">{did.did}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="font-mono text-sm text-purple-800 font-medium">{did.did}</p>
+                    <p className="text-xs text-purple-600">
                       Wallet: {did.walletAddress.slice(0, 6)}...{did.walletAddress.slice(-4)}
                     </p>
                   </div>
                   <div className="text-right">
-                    <Badge className={did.status === 'active' ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'}>
+                    <Badge className={`rounded-full ${did.status === 'active' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-yellow-100 text-yellow-700 border-yellow-200'}`}>
                       {did.status}
                     </Badge>
-                    <p className="text-xs text-slate-500 mt-1">{formatTimeAgo(did.createdAt)}</p>
+                    <p className="text-xs text-purple-500 mt-1">{formatTimeAgo(did.createdAt)}</p>
                   </div>
                 </div>
               ))}
@@ -92,19 +94,19 @@ export default function DataTables() {
       </Card>
 
       {/* Recent Notarizations Table */}
-      <Card className="glass-card border-slate-700">
-        <CardHeader className="border-b border-slate-700">
+      <Card className="modern-card rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50 border-white/20">
+        <CardHeader className="border-b border-green-100 pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                <i className="fas fa-file-signature text-purple-400"></i>
+              <div className="w-10 h-10 gradient-green rounded-2xl flex items-center justify-center floating-icon">
+                <i className="fas fa-file-signature text-white"></i>
               </div>
-              <span className="text-white">Recent Notarizations</span>
+              <span className="text-green-800 font-bold text-lg">Recent Notarizations</span>
             </CardTitle>
-            <Button variant="outline" size="sm" className="bg-slate-800 border-slate-600 hover:bg-slate-700">
+            <button className="px-4 py-2 pill-button gradient-green text-white text-sm font-medium shadow-md hover:shadow-lg">
               <i className="fas fa-search mr-2"></i>
               Search
-            </Button>
+            </button>
           </div>
         </CardHeader>
         <CardContent className="p-6">

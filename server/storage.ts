@@ -71,6 +71,7 @@ export class MemStorage implements IStorage {
     const did: Did = { 
       ...insertDid, 
       id, 
+      status: insertDid.status || 'active',
       createdAt: Date.now() 
     };
     this.dids.set(id, did);

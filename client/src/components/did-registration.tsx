@@ -65,61 +65,63 @@ export default function DidRegistration() {
   };
 
   return (
-    <Card className="glass-card border-slate-700">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-            <i className="fas fa-id-badge text-indigo-400"></i>
+    <Card className="modern-card rounded-3xl bg-gradient-to-br from-purple-50 to-indigo-50 border-white/20">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center space-x-4">
+          <div className="w-14 h-14 gradient-purple rounded-2xl flex items-center justify-center floating-icon">
+            <i className="fas fa-id-badge text-white text-xl"></i>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">Register New DID</h3>
-            <p className="text-slate-400 text-sm font-normal">Create and bind a decentralized identifier</p>
+            <h3 className="text-xl font-bold text-purple-800">Register New DID</h3>
+            <p className="text-purple-600 text-sm font-medium">Create and bind a decentralized identifier</p>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-slate-300">Decentralized Identifier (DID)</Label>
+            <Label className="text-purple-700 font-medium text-sm">Decentralized Identifier (DID)</Label>
             <Input
               type="text"
               value={did}
               onChange={(e) => setDid(e.target.value)}
               placeholder="did:cyber:example123"
-              className="bg-slate-800 border-slate-600 text-white placeholder-slate-500 focus:border-indigo-500"
+              className="mt-2 rounded-2xl border-purple-200 bg-white/80 text-purple-800 placeholder-purple-400 focus:border-purple-500 focus:ring-purple-500/20"
               required
             />
-            <p className="text-xs text-slate-500 mt-1">Format: did:method:identifier</p>
+            <p className="text-xs text-purple-500 mt-2 ml-2">Format: did:method:identifier</p>
           </div>
 
           <div>
-            <Label className="text-slate-300">Wallet Address</Label>
+            <Label className="text-purple-700 font-medium text-sm">Wallet Address</Label>
             <Input
               type="text"
               value={walletAddress}
-              className="bg-slate-800 border-slate-600 text-white font-mono text-sm"
+              className="mt-2 rounded-2xl border-purple-200 bg-white/80 text-purple-800 font-mono text-sm"
               readOnly
             />
-            <p className="text-xs text-slate-500 mt-1">Auto-fetched from connected wallet</p>
+            <p className="text-xs text-purple-500 mt-2 ml-2">Auto-fetched from connected wallet</p>
           </div>
 
-          <Button 
+          <button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+            className="w-full px-6 py-4 pill-button gradient-purple text-white font-semibold text-base shadow-lg hover:shadow-xl disabled:opacity-50"
             disabled={registerDidMutation.isPending}
           >
             {registerDidMutation.isPending ? (
-              <>
-                <i className="fas fa-spinner fa-spin mr-2"></i>
-                Registering...
-              </>
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Registering...</span>
+              </div>
             ) : (
-              <>
-                <i className="fas fa-plus mr-2"></i>
-                Register & Bind DID
-              </>
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center">
+                  <i className="fas fa-plus text-white text-sm"></i>
+                </div>
+                <span>Register & Bind DID</span>
+              </div>
             )}
-          </Button>
+          </button>
         </form>
       </CardContent>
     </Card>

@@ -103,34 +103,36 @@ export default function DocumentNotarization() {
   };
 
   return (
-    <Card className="glass-card border-slate-700">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-            <i className="fas fa-file-signature text-purple-400"></i>
+    <Card className="modern-card rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50 border-white/20">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center space-x-4">
+          <div className="w-14 h-14 gradient-green rounded-2xl flex items-center justify-center floating-icon">
+            <i className="fas fa-file-signature text-white text-xl"></i>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">Notarize Document</h3>
-            <p className="text-slate-400 text-sm font-normal">Create immutable proof of document existence</p>
+            <h3 className="text-xl font-bold text-green-800">Notarize Document</h3>
+            <p className="text-green-600 text-sm font-medium">Create immutable proof of document existence</p>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-slate-300">Document Upload</Label>
+            <Label className="text-green-700 font-medium text-sm">Document Upload</Label>
             <div
               onDrop={handleDrop}
               onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
               onDragLeave={() => setIsDragOver(false)}
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all duration-200 ${
-                isDragOver ? 'border-purple-500 bg-purple-500/5' : 'border-slate-600 hover:border-purple-500'
+              className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 mt-2 ${
+                isDragOver ? 'border-green-400 bg-green-100' : 'border-green-200 hover:border-green-400 bg-white/50'
               }`}
             >
-              <i className="fas fa-cloud-upload-alt text-3xl text-slate-500 mb-2"></i>
-              <p className="text-slate-400">Drop files here or <span className="text-purple-400">browse</span></p>
-              <p className="text-xs text-slate-500 mt-1">Supports PDF, DOC, TXT, and more</p>
+              <div className="w-16 h-16 gradient-green rounded-2xl flex items-center justify-center mx-auto mb-4 floating-icon">
+                <i className="fas fa-cloud-upload-alt text-2xl text-white"></i>
+              </div>
+              <p className="text-green-700 font-medium">Drop files here or <span className="text-green-600 underline">browse</span></p>
+              <p className="text-sm text-green-600 mt-2">Supports PDF, DOC, TXT, images and more</p>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -141,26 +143,30 @@ export default function DocumentNotarization() {
             </div>
             
             {file && (
-              <div className="mt-2 p-2 bg-slate-800 rounded border border-slate-600">
-                <div className="flex items-center space-x-2">
-                  <i className="fas fa-file text-green-400"></i>
-                  <span className="text-sm text-white">{file.name}</span>
-                  <span className="text-xs text-slate-400">({(file.size / 1024).toFixed(2)} KB)</span>
+              <div className="mt-4 p-4 bg-white/80 rounded-2xl border border-green-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 gradient-green rounded-xl flex items-center justify-center">
+                    <i className="fas fa-file text-white text-sm"></i>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-green-800">{file.name}</span>
+                    <span className="text-xs text-green-600 ml-2">({(file.size / 1024).toFixed(2)} KB)</span>
+                  </div>
                 </div>
                 {fileHash && (
-                  <p className="text-xs text-slate-500 mt-1 font-mono">SHA-256: {fileHash}</p>
+                  <p className="text-xs text-green-600 mt-2 font-mono bg-green-50 p-2 rounded-lg">SHA-256: {fileHash}</p>
                 )}
               </div>
             )}
           </div>
 
           <div>
-            <Label className="text-slate-300">Use Case Category</Label>
+            <Label className="text-green-700 font-medium text-sm">Use Case Category</Label>
             <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger className="bg-slate-800 border-slate-600 text-white">
+              <SelectTrigger className="mt-2 rounded-2xl border-green-200 bg-white/80 text-green-800">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600">
+              <SelectContent className="bg-white/95 border-green-200 rounded-xl">
                 <SelectItem value="University Credential">University Credential</SelectItem>
                 <SelectItem value="Supply Chain Event">Supply Chain Event</SelectItem>
                 <SelectItem value="Medical Record">Medical Record</SelectItem>
@@ -171,23 +177,25 @@ export default function DocumentNotarization() {
             </Select>
           </div>
 
-          <Button 
+          <button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700"
+            className="w-full px-6 py-4 pill-button gradient-green text-white font-semibold text-base shadow-lg hover:shadow-xl disabled:opacity-50"
             disabled={notarizeMutation.isPending || !file || !category}
           >
             {notarizeMutation.isPending ? (
-              <>
-                <i className="fas fa-spinner fa-spin mr-2"></i>
-                Notarizing...
-              </>
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Notarizing...</span>
+              </div>
             ) : (
-              <>
-                <i className="fas fa-stamp mr-2"></i>
-                Notarize Document
-              </>
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center">
+                  <i className="fas fa-stamp text-white text-sm"></i>
+                </div>
+                <span>Notarize Document</span>
+              </div>
             )}
-          </Button>
+          </button>
         </form>
       </CardContent>
     </Card>

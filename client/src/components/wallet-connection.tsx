@@ -57,28 +57,31 @@ export default function WalletConnection() {
 
   if (isConnected) {
     return (
-      <Button
+      <button
         onClick={disconnectWallet}
-        variant="outline"
-        className="bg-slate-800 border-slate-600 hover:bg-slate-700"
+        className="px-6 py-3 pill-button modern-card hover:bg-white/20 border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50"
       >
-        <div className="flex items-center space-x-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span className="font-mono text-sm">
+        <div className="flex items-center space-x-3">
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-bounce-gentle floating-icon"></div>
+          <span className="font-mono text-sm text-green-700 font-medium">
             {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
           </span>
         </div>
-      </Button>
+      </button>
     );
   }
 
   return (
-    <Button
+    <button
       onClick={connectWallet}
-      className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+      className="px-6 py-3 pill-button gradient-purple text-white font-medium shadow-lg hover:shadow-xl"
     >
-      <i className="fas fa-wallet mr-2"></i>
-      Connect Wallet
-    </Button>
+      <div className="flex items-center space-x-2">
+        <div className="w-5 h-5 bg-white/20 rounded-lg flex items-center justify-center floating-icon">
+          <i className="fas fa-wallet text-white text-sm"></i>
+        </div>
+        <span>Connect Wallet</span>
+      </div>
+    </button>
   );
 }
