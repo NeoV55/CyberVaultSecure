@@ -7,6 +7,7 @@ CyberVault Explorer is a full-stack TypeScript application that serves as a web-
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+IOTA Integration: Uses local CyberVault CLI for blockchain operations.
 
 ## System Architecture
 
@@ -23,6 +24,7 @@ Preferred communication style: Simple, everyday language.
 - **Language**: TypeScript with ES modules
 - **API Style**: RESTful JSON API
 - **Storage**: In-memory storage implementation (MemStorage class)
+- **Blockchain Integration**: CyberVault SDK calling local IOTA CLI
 - **Development**: Hot reload with Vite integration
 
 ### Database Design
@@ -123,3 +125,48 @@ The application uses Drizzle ORM with PostgreSQL schema definitions, though curr
 - Environment variables for database connection
 
 The architecture is designed for easy transition from prototype to production, with clear separation of concerns and modern development practices throughout the stack.
+
+## IOTA Blockchain Integration
+
+### CyberVault SDK Integration
+The application now integrates with your local CyberVault CLI to perform real blockchain operations on IOTA:
+
+#### SDK Operations
+1. **DID Registration**: `cargo run --bin cybervault-cli -- register <did>`
+2. **Wallet Binding**: `cargo run --bin cybervault-cli -- bind <did> <wallet_address>`  
+3. **Document Notarization**: `cargo run --bin cybervault-cli -- notarize <data_hash> <timestamp>`
+
+#### Backend Integration (`server/iota-sdk.ts`)
+- **CyberVaultSDK Class**: Wrapper around CLI operations
+- **Error Handling**: Robust error handling for CLI failures
+- **Transaction Parsing**: Extracts transaction hashes from CLI output
+- **Status Checking**: Monitors CLI availability
+
+#### API Endpoints
+- `GET /api/iota/status` - Check CyberVault CLI availability
+- Modified existing endpoints to integrate blockchain operations:
+  - `POST /api/dids` - Registers DID on IOTA, then stores locally
+  - `POST /api/documents` - Notarizes on IOTA, then stores locally
+  - `GET /api/documents/verify/:hash` - Verifies against both blockchain and local storage
+
+#### Frontend Integration
+- **Blockchain Status Component**: Real-time CLI availability monitoring
+- **Transaction Feedback**: Toast notifications show IOTA transaction hashes
+- **Enhanced Verification**: Documents verified against both local and blockchain sources
+- **Visual Indicators**: Color-coded status for blockchain connectivity
+
+#### Setup Requirements
+1. Rust and Cargo must be installed
+2. CyberVault CLI must be available in the project root
+3. IOTA contracts must be deployed and CLI configured
+4. CLI commands should be executable from the project directory
+
+#### Data Flow with IOTA
+1. **DID Registration Flow**: 
+   - Frontend → Backend API → CyberVault CLI → IOTA Blockchain → Local Storage
+2. **Document Notarization Flow**:
+   - File Upload → Hash Generation → CLI Notarization → IOTA → Local Storage  
+3. **Verification Flow**:
+   - Hash Input → Local Lookup + Blockchain Verification → Combined Results
+
+The integration maintains backward compatibility with in-memory storage while adding blockchain functionality when CLI is available.

@@ -18,10 +18,13 @@ export default function DidRegistration() {
     mutationFn: async (data: { did: string; walletAddress: string; status: string }) => {
       return apiRequest('POST', '/api/dids', data);
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
+      const txHash = data.blockchain?.registrationTx;
       toast({
-        title: "DID Registered Successfully",
-        description: "Your DID has been registered and bound to your wallet",
+        title: "DID Registered on IOTA Blockchain!",
+        description: txHash 
+          ? `Transaction: ${txHash.slice(0, 12)}... • DID bound to wallet successfully`
+          : "Your DID has been registered and bound to your wallet",
       });
       setDid("");
       queryClient.invalidateQueries({ queryKey: ['/api/dids'] });

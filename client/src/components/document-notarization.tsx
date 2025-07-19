@@ -21,10 +21,13 @@ export default function DocumentNotarization() {
     mutationFn: async (data: { hash: string; fileName: string; category: string; timestamp: number }) => {
       return apiRequest('POST', '/api/documents', data);
     },
-    onSuccess: () => {
+    onSuccess: (data: any) => {
+      const txHash = data.blockchain?.transactionHash;
       toast({
-        title: "Document Notarized",
-        description: "Your document has been successfully notarized on the blockchain",
+        title: "Document Notarized on IOTA!",
+        description: txHash 
+          ? `Blockchain TX: ${txHash.slice(0, 12)}... • Document hash secured`
+          : "Your document has been successfully notarized on the blockchain",
       });
       resetForm();
       queryClient.invalidateQueries({ queryKey: ['/api/documents'] });

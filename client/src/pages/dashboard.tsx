@@ -5,6 +5,7 @@ import DocumentNotarization from "@/components/document-notarization";
 import DocumentVerification from "@/components/document-verification";
 import StatsCards from "@/components/stats-cards";
 import DataTables from "@/components/data-tables";
+import { BlockchainStatus } from "@/components/blockchain-status";
 
 export default function Dashboard() {
   return (
@@ -33,6 +34,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex space-x-4">
+            <BlockchainStatus />
             <WalletConnection />
             <button className="px-6 py-3 pill-button gradient-orange text-white font-medium shadow-lg hover:shadow-xl">
               <i className="fas fa-download mr-2"></i>
