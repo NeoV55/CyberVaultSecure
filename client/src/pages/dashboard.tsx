@@ -1,11 +1,11 @@
-import Sidebar from "@/components/sidebar";
-import WalletConnection from "@/components/wallet-connection";
-import DidRegistration from "@/components/did-registration";
-import DocumentNotarization from "@/components/document-notarization";
-import DocumentVerification from "@/components/document-verification";
-import StatsCards from "@/components/stats-cards";
-import DataTables from "@/components/data-tables";
-import { BlockchainStatus } from "@/components/blockchain-status";
+import Sidebar from "../components/sidebar";
+import WalletConnection from "../components/wallet-connection";
+import DidRegistration from "../components/did-registration";
+import DocumentNotarization from "../components/document-notarization";
+import DocumentVerification from "../components/document-verification";
+import StatsCards from "../components/stats-cards";
+import DataTables from "../components/data-tables";
+import { BlockchainStatus } from "../components/blockchain-status";
 
 export default function Dashboard() {
   return (
@@ -29,7 +29,7 @@ export default function Dashboard() {
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   CyberVault
                 </h2>
-                <p className="text-gray-600 text-lg">Decentralized identity with cloud infrastructure ease</p>
+                <p className="text-gray-600 text-lg">Decentralized Access Control and Auditing toolkit for IOTA-based Applications</p>
               </div>
             </div>
           </div>

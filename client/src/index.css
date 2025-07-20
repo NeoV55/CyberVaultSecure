@@ -4,6 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-sans antialiased text-foreground;
+    font-family: 'Inter', sans-serif;
+    background: var(--gradient-main);
+    min-height: 100vh;
+  }
+}
+
+
+@layer utilities {
+  .border-border {
+    border-color: var(--border);
+  }
+}
+
+@layer utilities {
+  .text-foreground {
+    color: var(--foreground);
+  }
+}
+
+
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);

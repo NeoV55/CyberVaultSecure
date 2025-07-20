@@ -47,7 +47,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Step 3: Store in local database with blockchain transaction info
       const didData = {
         ...validatedData,
-        blockchainTxHash: registrationResult.data?.transactionHash,
+        blockchainTxHash: registrationResult.data?.txHash,
         bindingTxHash: bindingResult.data?.transactionHash,
         onChain: true
       };
@@ -57,10 +57,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json({
         ...newDid,
         blockchain: {
-          registered: registrationResult.success,
-          bound: bindingResult.success,
-          registrationTx: registrationResult.data?.transactionHash,
-          bindingTx: bindingResult.data?.transactionHash
+          registered: true,
+          bound: true,
+          registrationTx: registrationResult.data?.txHash,
+          bindingTx: bindingResult.data?.txHash
         }
       });
     } catch (error) {

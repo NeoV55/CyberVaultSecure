@@ -11,10 +11,12 @@ export default function DocumentVerification() {
   const [hash, setHash] = useState("");
   const [verificationResult, setVerificationResult] = useState<any>(null);
   const { toast } = useToast();
+  const walletAddress = localStorage.getItem('cybervault_wallet') || '';
+
 
   const verifyMutation = useMutation({
     mutationFn: async (hash: string) => {
-      const response = await apiRequest('GET', `/api/documents/verify/${hash}`);
+      const response = await apiRequest('GET', `/api/documents/verify/${hash}?wallet=${walletAddress}`);
       return await response.json();
     },
     onSuccess: (data) => {
@@ -51,7 +53,7 @@ export default function DocumentVerification() {
       return;
     }
 
-    verifyMutation.mutate(hash.trim());
+    verifyMutation.mutate(`${hash.trim()}?wallet=${walletAddress}`);
   };
 
   return (

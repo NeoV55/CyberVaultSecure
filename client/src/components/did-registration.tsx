@@ -15,11 +15,11 @@ export default function DidRegistration() {
   const walletAddress = localStorage.getItem('cybervault_wallet') || '';
 
   const registerDidMutation = useMutation({
-    mutationFn: async (data: { did: string; walletAddress: string; status: string }) => {
+    mutationFn: async (data: { did: string; walletAddress: string }) => {
       return apiRequest('POST', '/api/dids', data);
     },
     onSuccess: (data: any) => {
-      const txHash = data.blockchain?.registrationTx;
+      const txHash = data?.txHash || data?.blockchain?.txHash;
       toast({
         title: "DID Registered on IOTA Blockchain!",
         description: txHash 
@@ -38,6 +38,7 @@ export default function DidRegistration() {
       });
     },
   });
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

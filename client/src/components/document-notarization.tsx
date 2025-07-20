@@ -17,10 +17,19 @@ export default function DocumentNotarization() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const walletAddress = localStorage.getItem('cybervault_wallet') || '';
+
   const notarizeMutation = useMutation({
-    mutationFn: async (data: { hash: string; fileName: string; category: string; timestamp: number }) => {
+    mutationFn: async (data: {
+      hash: string;
+      fileName: string;
+      category: string;
+      timestamp: number;
+      walletAddress: string;
+    }) => {
       return apiRequest('POST', '/api/documents', data);
     },
+
     onSuccess: (data: any) => {
       const txHash = data.blockchain?.transactionHash;
       toast({
@@ -101,7 +110,8 @@ export default function DocumentNotarization() {
       hash: fileHash,
       fileName: file.name,
       category,
-      timestamp
+      timestamp,
+      walletAddress
     });
   };
 

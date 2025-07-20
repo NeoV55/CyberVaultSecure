@@ -26,7 +26,7 @@ export default function WalletConnection() {
 
       // Simulate async wallet connection
       setTimeout(() => {
-        const mockAddress = "0x742d35Cc6634C0532925a3b8D6aE8E7a9";
+        const mockAddress = "0xbd0e5ec18cee7d5e4202c46afe59541acaf15efcc8735b2e4549ea956426a395";
         setWalletAddress(mockAddress);
         setIsConnected(true);
         localStorage.setItem('cybervault_wallet', mockAddress);

@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
+
 const execAsync = promisify(exec);
 
 export interface IOTAOperationResult {
@@ -8,6 +9,7 @@ export interface IOTAOperationResult {
   data?: any;
   error?: string;
 }
+
 
 export class CyberVaultSDK {
   private basePath: string;
@@ -22,12 +24,33 @@ export class CyberVaultSDK {
   async registerDID(did: string): Promise<IOTAOperationResult> {
     try {
       console.log(`Registering DID: ${did}`);
-      const command = `cargo run --bin cybervault-cli -- register "${did}"`;
+      //const command = `cargo run --bin cybervault-cli -- register "${did}"`;
+      const command = `cargo run --release --bin cybervault-cli -- register "${did}"`;
+
+      //const command = `cmd /c cargo run --bin cybervault-cli -- register "${did}"`;
       const { stdout, stderr } = await execAsync(command, { cwd: this.basePath });
       
-      if (stderr && !stderr.includes('Compiling')) {
+
+      console.log("Command:", command);
+      console.log("Base path:", this.basePath);
+
+      
+      const hasFatalError =
+        stderr &&
+        stderr.includes('error') &&
+        !stderr.includes('warning') &&
+        !stderr.includes('Finished') &&
+        !stderr.includes('Compiling');
+
+      if (hasFatalError) {
         throw new Error(stderr);
       }
+
+      console.log("CLI STDOUT:", stdout);
+      console.log("CLI STDERR:", stderr);
+
+      console.error("Full STDERR before filtering:", stderr);
+
 
       return {
         success: true,
@@ -54,17 +77,34 @@ export class CyberVaultSDK {
       console.log(`Binding DID ${did} to wallet ${walletAddress}`);
       const command = `cargo run --bin cybervault-cli -- bind "${did}" "${walletAddress}"`;
       const { stdout, stderr } = await execAsync(command, { cwd: this.basePath });
+
+      console.log("Command:", command);
+      console.log("Base path:", this.basePath);
+
       
-      if (stderr && !stderr.includes('Compiling')) {
+      const hasFatalError =
+        stderr &&
+        stderr.includes('error') &&
+        !stderr.includes('warning') &&
+        !stderr.includes('Finished') &&
+        !stderr.includes('Compiling');
+
+      if (hasFatalError) {
         throw new Error(stderr);
       }
+
+
+      console.log("CLI STDOUT:", stdout);
+      console.log("CLI STDERR:", stderr);
+
+
 
       return {
         success: true,
         data: {
           did,
           walletAddress,
-          transactionHash: this.extractTransactionHash(stdout),
+          txHash: this.extractTransactionHash(stdout),
           timestamp: new Date().toISOString()
         }
       };
@@ -86,9 +126,22 @@ export class CyberVaultSDK {
       const command = `cargo run --bin cybervault-cli -- notarize "${dataHash}" "${timestamp}"`;
       const { stdout, stderr } = await execAsync(command, { cwd: this.basePath });
       
-      if (stderr && !stderr.includes('Compiling')) {
+      const hasFatalError =
+        stderr &&
+        stderr.includes('error') &&
+        !stderr.includes('warning') &&
+        !stderr.includes('Finished') &&
+        !stderr.includes('Compiling');
+
+      if (hasFatalError) {
         throw new Error(stderr);
       }
+
+
+      console.log("CLI STDOUT:", stdout);
+      console.log("CLI STDERR:", stderr);
+
+
 
       return {
         success: true,
@@ -181,4 +234,4 @@ export class CyberVaultSDK {
 }
 
 // Singleton instance
-export const cyberVaultSDK = new CyberVaultSDK();
+export const cyberVaultSDK = new CyberVaultSDK('../CyberVault');
